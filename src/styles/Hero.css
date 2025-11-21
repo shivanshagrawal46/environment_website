@@ -29,6 +29,24 @@
   height: 100%;
   object-fit: cover;
   filter: brightness(0.7);
+  pointer-events: none;
+}
+
+/* Hide video controls on mobile */
+.hero-video::-webkit-media-controls {
+  display: none !important;
+}
+
+.hero-video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+.hero-video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+.hero-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
 }
 
 .hero-overlay {

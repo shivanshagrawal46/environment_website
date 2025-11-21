@@ -1,9 +1,43 @@
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 import '../../styles/Hero.css';
 
 const Hero = () => {
   const { heroOpacity, heroScale } = useScrollAnimation();
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const playVideo = async () => {
+      if (videoRef.current) {
+        try {
+          videoRef.current.muted = true;
+          await videoRef.current.play();
+        } catch (error) {
+          console.log("Video autoplay prevented:", error);
+          // Retry on user interaction
+          document.addEventListener('touchstart', () => {
+            videoRef.current?.play();
+          }, { once: true });
+        }
+      }
+    };
+
+    playVideo();
+
+    // Handle visibility change (when tab becomes active)
+    const handleVisibilityChange = () => {
+      if (!document.hidden && videoRef.current?.paused) {
+        videoRef.current.play();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   return (
     <motion.section 
@@ -12,11 +46,15 @@ const Hero = () => {
     >
       <div className="hero-video-container">
         <video 
+          ref={videoRef}
           autoPlay 
           loop 
           muted 
           playsInline
+          preload="auto"
           className="hero-video"
+          webkit-playsinline="true"
+          x-webkit-airplay="allow"
         >
           <source src="/videos/nature-video-1 (1).mp4" type="video/mp4" />
         </video>

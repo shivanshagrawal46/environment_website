@@ -87,6 +87,24 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+}
+
+/* Hide video controls on mobile */
+.full-video::-webkit-media-controls {
+  display: none !important;
+}
+
+.full-video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+.full-video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+.full-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
 }
 
 .video-overlay-text {

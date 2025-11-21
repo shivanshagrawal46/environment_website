@@ -1,7 +1,49 @@
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import '../../styles/VisualStory.css';
 
 const VisualStory = () => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const playVideo = async () => {
+      if (videoRef.current) {
+        try {
+          videoRef.current.muted = true;
+          await videoRef.current.play();
+        } catch (error) {
+          console.log("Video autoplay prevented:", error);
+          // Retry on user interaction
+          document.addEventListener('touchstart', () => {
+            videoRef.current?.play();
+          }, { once: true });
+        }
+      }
+    };
+
+    // Play when video comes into view
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && videoRef.current?.paused) {
+            playVideo();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
+
   return (
     <section className="visual-story">
       <motion.div
@@ -100,11 +142,15 @@ const VisualStory = () => {
         viewport={{ once: false, margin: "-100px" }}
       >
         <video 
+          ref={videoRef}
           autoPlay 
           loop 
           muted 
           playsInline
+          preload="auto"
           className="full-video"
+          webkit-playsinline="true"
+          x-webkit-airplay="allow"
         >
           <source src="/videos/nature-video-2 (1).mp4" type="video/mp4" />
         </video>
