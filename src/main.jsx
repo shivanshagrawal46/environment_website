@@ -11,13 +11,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 // Register service worker for asset caching (images/videos)
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/service-worker.js')
-      .catch((err) => console.error('SW registration failed:', err));
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    registrations.forEach(reg => reg.unregister());
   });
 }
-
 
 
 

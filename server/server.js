@@ -34,14 +34,6 @@ const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "pcbfoundation@k@h@";
 const IS_PROD = (process.env.NODE_ENV ) === "production";
 
-// CORS Configuration - only for local development
-const corsOptions = {
-  origin: process.env.CORS_ORIGIN || "http://localhost:5173",
-  credentials: true,
-  optionsSuccessStatus: 200,
-  maxAge: 86400, // Cache preflight requests for 24 hours
-};
-
 // Rate limiting to prevent abuse and ensure consistent performance
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes default
@@ -58,10 +50,8 @@ const rateLimitAllowlist = ["/api/auth/login"];
 app.set("trust proxy", 1);
 
 // Apply middleware in optimized order
-if (!IS_PROD) {
-  // Allow dev frontend to access API from different origin
-app.use(cors(corsOptions));
-}
+// Enable permissive CORS so the API is not blocked for frontend clients
+app.use(cors());
 app.use(compression()); // Enable gzip compression for all responses
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: false, limit: "1mb" }));
