@@ -13,6 +13,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  caret-color: transparent; /* Hide caret on non-input areas */
+}
+
+input, textarea, select {
+  caret-color: auto; /* Restore caret inside form fields */
 }
 
 code {

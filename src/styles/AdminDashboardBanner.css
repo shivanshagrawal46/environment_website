@@ -1,0 +1,29 @@
+.dashboard-banner {
+  overflow: hidden;
+  background: linear-gradient(90deg, rgba(74, 103, 65, 0.08), rgba(139, 157, 131, 0.1));
+  border-radius: 12px;
+  padding: 10px 0;
+  margin-bottom: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.banner-track {
+  display: flex;
+  width: max-content;
+  animation: scrollBanner 18s linear infinite;
+  gap: 40px;
+  padding-left: 40px;
+}
+
+.banner-text {
+  white-space: nowrap;
+  font-weight: 600;
+  color: #2d2d2d;
+  letter-spacing: 0.02em;
+}
+
+@keyframes scrollBanner {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+

@@ -1,16 +1,49 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../../styles/Navigation.css';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (isHomePage) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        setIsMenuOpen(false);
+      }
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
       setIsMenuOpen(false);
     }
+  };
+
+  const handleLogoClick = () => {
+    if (isHomePage) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+    }
+  };
+
+  const handleProjectsClick = () => {
+    navigate('/projects');
+    setIsMenuOpen(false);
+  };
+
+  const handleCarbonClick = () => {
+    navigate('/carbon-calculator');
+    setIsMenuOpen(false);
   };
 
   return (
@@ -24,16 +57,17 @@ const Navigation = () => {
         className="logo"
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.3 }}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onClick={handleLogoClick}
       >
-        TERRA
+        <img src="/images/logo_pcb.png" alt="PCB Foundation" className="logo-image" />
+        <span className="logo-text">PCB Foundation</span>
       </motion.div>
 
       <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-        <a onClick={() => scrollToSection('about')}>About</a>
-        <a onClick={() => scrollToSection('projects')}>Projects</a>
-        <a onClick={() => scrollToSection('impact')}>Impact</a>
-        <a onClick={() => scrollToSection('initiatives')}>Initiatives</a>
+        <a onClick={() => navigate('/about-us')}>About Us</a>
+        <a onClick={handleProjectsClick}>Projects</a>
+        <a onClick={() => navigate('/blogs')}>Blogs</a>
+        <a onClick={handleCarbonClick}>Carbon Calculator</a>
         <a onClick={() => scrollToSection('team')}>Team</a>
         <a onClick={() => scrollToSection('donate')}>Donate</a>
         <a onClick={() => scrollToSection('contact')}>Contact</a>

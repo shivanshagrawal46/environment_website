@@ -1,14 +1,41 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { teamMembersData } from '../../data/teamData';
 import '../../styles/Team.css';
 
-const teamMembers = [
-  { name: "Dr. Sarah Chen", role: "Chief Environmental Officer", expertise: "Climate Science", image: "/images/image1.png" },
-  { name: "Michael Torres", role: "Director of Operations", expertise: "Conservation", image: "/images/image2.png" },
-  { name: "Emily Rodriguez", role: "Corporate Partnerships", expertise: "ESG Strategy", image: "/images/image3.png" },
-  { name: "James Wilson", role: "Head of Research", expertise: "Biodiversity", image: "/images/image4.png" }
-];
-
 const Team = () => {
+  const navigate = useNavigate();
+  const [members, setMembers] = useState(teamMembersData);
+  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+
+  const normalized = useMemo(() => {
+    const base = API_URL.replace('/api', '');
+    return (members || []).map((m) => ({
+      ...m,
+      photo: m.photo && !m.photo.startsWith('http') ? `${base}${m.photo}` : m.photo,
+      image: m.image && !m.image.startsWith('http') ? `${base}${m.image}` : m.image,
+      coverImage: m.coverImage && !m.coverImage.startsWith('http') ? `${base}${m.coverImage}` : m.coverImage,
+    }));
+  }, [members, API_URL]);
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        const res = await fetch(`${API_URL}/team`);
+        if (!res.ok) throw new Error('Failed to fetch team');
+        const data = await res.json();
+        if (Array.isArray(data) && data.length) {
+          setMembers(data);
+        }
+      } catch (err) {
+        console.error('Team fetch failed, using fallback:', err.message);
+        setMembers(teamMembersData);
+      }
+    };
+    fetchTeam();
+  }, [API_URL]);
+
   return (
     <section className="team" id="team">
       <motion.div
@@ -34,7 +61,7 @@ const Team = () => {
       </motion.div>
 
       <div className="team-grid">
-        {teamMembers.map((member, index) => (
+        {normalized.slice(0, 4).map((member, index) => (
           <motion.div
             key={index}
             className="team-card"
@@ -47,6 +74,8 @@ const Team = () => {
             }}
             viewport={{ once: false, margin: "-80px" }}
             whileHover={{ y: -15, scale: 1.05 }}
+            onClick={() => navigate(`/team/${member.slug}`)}
+            style={{ cursor: 'pointer' }}
           >
             <motion.div 
               className="team-avatar"
@@ -60,7 +89,7 @@ const Team = () => {
               viewport={{ once: false }}
             >
               <motion.img 
-                src={member.image} 
+                src={member.photo || member.image} 
                 alt={member.name}
                 initial={{ scale: 1.2 }}
                 whileInView={{ scale: 1 }}
@@ -88,15 +117,7 @@ const Team = () => {
             >
               {member.role}
             </motion.p>
-            <motion.p 
-              className="team-expertise"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 + 0.6 }}
-              viewport={{ once: false }}
-            >
-              {member.expertise}
-            </motion.p>
+            {/* Expertise hidden on home cards as requested */}
           </motion.div>
         ))}
       </div>
@@ -114,6 +135,10 @@ const Team = () => {
           className="cta-secondary"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            const el = document.getElementById('contact');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }}
         >
           View Careers
         </motion.button>

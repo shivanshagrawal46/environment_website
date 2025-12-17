@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/About.css';
 
 const About = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="about" id="about">
       <div className="about-grid">
@@ -59,11 +62,21 @@ const About = () => {
             </motion.span>
           </motion.h2>
           <p className="about-description">
-            TERRA partners with forward-thinking corporations to create 
+            PCB Foundation partners with forward-thinking corporations to create 
             meaningful, lasting environmental impact. Our data-driven approach 
             ensures authenticity, transparency, and measurable results that 
             enhance your ESG commitments.
           </p>
+          <div className="about-cta-row">
+            <motion.button 
+              className="cta-secondary"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/about-us')}
+            >
+              Learn More About Us
+            </motion.button>
+          </div>
           <div className="about-features">
             <motion.div 
               className="feature-box"

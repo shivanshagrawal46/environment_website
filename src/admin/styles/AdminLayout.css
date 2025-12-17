@@ -1,0 +1,61 @@
+.admin-layout {
+  min-height: 100vh;
+  background: #f8f7f4; /* Your primary-light */
+}
+
+/* Customize Ant Design Layout */
+.admin-layout .ant-layout-sider {
+  background: #1a1a1a !important; /* Your primary-dark */
+}
+
+.admin-layout .ant-menu-dark {
+  background: #1a1a1a !important;
+}
+
+.admin-layout .ant-menu-dark .ant-menu-item-selected {
+  background: #4a6741 !important; /* Your accent-green */
+}
+
+.admin-layout .ant-menu-dark .ant-menu-item:hover {
+  background: rgba(74, 103, 65, 0.2) !important;
+}
+
+.admin-logo {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px;
+}
+
+.admin-logo img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,0.25));
+}
+
+.admin-logo span {
+  color: #8b9d83; /* accent-sage */
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  font-family: 'Helvetica Neue', -apple-system, sans-serif;
+  white-space: nowrap;
+}
+
+/* Header styling */
+.admin-layout .ant-layout-header {
+  background: #ffffff !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* Content area */
+.admin-layout .ant-layout-content {
+  background: #f8f7f4 !important;
+}
+

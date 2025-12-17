@@ -85,6 +85,10 @@ const Donate = () => {
             className="cta-primary donate-btn"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              const el = document.getElementById('contact');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
             Donate ${selectedAmount || customAmount || 0}
           </motion.button>

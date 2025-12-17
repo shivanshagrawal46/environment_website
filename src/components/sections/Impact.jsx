@@ -1,5 +1,5 @@
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useEffect, useMemo, useState } from 'react';
 import { useInView } from '../../hooks/useInView';
 import { impactStats } from '../../data/impactData';
 import '../../styles/Impact.css';
@@ -104,7 +104,54 @@ const ImpactCard = ({ stat, delay }) => {
   );
 };
 
+const formatValue = (label, value) => {
+  if (!value) return '';
+  const str = String(value).trim();
+  if (label === 'Client Retention') {
+    return str.includes('%') ? str : `${str}%`;
+  }
+  if (label === 'Tons CO2 Offset') {
+    return /m/i.test(str) ? str : `${str}M`;
+  }
+  return str;
+};
+
 const Impact = () => {
+  const [stats, setStats] = useState(impactStats);
+  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+
+  const fallbackIcons = useMemo(() => {
+    const map = {};
+    impactStats.forEach((item) => {
+      map[item.label] = item.icon;
+    });
+    return map;
+  }, []);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await fetch(`${API_URL}/stats`);
+        if (!res.ok) throw new Error('Failed to fetch stats');
+        const data = await res.json();
+        const normalized = Array.isArray(data)
+          ? data.map((item) => ({
+              number: formatValue(item.label, item.value),
+              label: item.label,
+              icon: item.icon || fallbackIcons[item.label] || '📊',
+            }))
+          : [];
+        if (normalized.length) {
+          setStats(normalized);
+        }
+      } catch (err) {
+        console.error('Impact stats fetch failed, using fallback:', err.message);
+        setStats(impactStats);
+      }
+    };
+    fetchStats();
+  }, [API_URL, fallbackIcons]);
+
   return (
     <section className="impact" id="impact">
       <motion.div
@@ -130,7 +177,7 @@ const Impact = () => {
       </motion.div>
 
       <div className="impact-grid">
-        {impactStats.map((stat, index) => (
+        {stats.map((stat, index) => (
           <ImpactCard 
             key={index}
             stat={stat} 

@@ -27,7 +27,10 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-brand">
-          <h3>TERRA</h3>
+          <div className="footer-logo">
+            <img src="/images/logo_pcb.png" alt="PCB Foundation" className="footer-logo-image" />
+            <h3>PCB Foundation</h3>
+          </div>
           <p>Preserving tomorrow, today</p>
           <div className="footer-social">
             <a href="#" aria-label="LinkedIn">LinkedIn</a>
@@ -73,7 +76,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>© 2025 TERRA Environmental Foundation. All rights reserved.</p>
+        <p>© 2025 PCB Foundation. All rights reserved.</p>
         <div className="footer-legal">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>

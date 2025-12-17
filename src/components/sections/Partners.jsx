@@ -1,28 +1,59 @@
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import '../../styles/Partners.css';
 
-const testimonials = [
+const fallbackTestimonials = [
   {
-    quote: "TERRA transformed our sustainability approach with measurable, authentic impact.",
+    quote: "PCB Foundation transformed our sustainability approach with measurable, authentic impact.",
     author: "Jennifer Lee",
     position: "CSO, Global Tech Corp",
-    company: "Fortune 500"
+    company: "Fortune 500",
   },
   {
     quote: "The transparency and professionalism exceeded our expectations. A true partner.",
     author: "Robert Martinez",
     position: "VP Sustainability, Energy Group",
-    company: "Industry Leader"
+    company: "Industry Leader",
   },
   {
-    quote: "Our ESG ratings improved significantly thanks to TERRA's strategic programs.",
+    quote: "Our ESG ratings improved significantly thanks to PCB Foundation's strategic programs.",
     author: "Lisa Anderson",
     position: "Head of ESG, Financial Services",
-    company: "Global Bank"
-  }
+    company: "Global Bank",
+  },
 ];
 
 const Partners = () => {
+  const [reviews, setReviews] = useState(fallbackTestimonials);
+  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+
+  const normalizedReviews = useMemo(() => {
+    if (!Array.isArray(reviews)) return fallbackTestimonials;
+    const list = reviews.slice(0, 3).map((item) => ({
+      quote: item.review || item.quote,
+      author: item.reviewerName || item.author || 'Anonymous',
+      position: item.reviewerCompany || item.position || '',
+      company: item.tagName || item.company || 'Partner',
+    }));
+    return list.length ? list : fallbackTestimonials;
+  }, [reviews]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await fetch(`${API_URL}/reviews`);
+        if (!res.ok) throw new Error('Failed to fetch reviews');
+        const data = await res.json();
+        const list = Array.isArray(data?.data) ? data.data : Array.isArray(data) ? data : [];
+        if (list.length) setReviews(list);
+      } catch (err) {
+        console.error('Reviews fetch failed, using fallback:', err.message);
+        setReviews(fallbackTestimonials);
+      }
+    };
+    fetchReviews();
+  }, [API_URL]);
+
   return (
     <section className="partners" id="partners">
       <motion.div
@@ -48,9 +79,9 @@ const Partners = () => {
       </motion.div>
 
       <div className="testimonials-grid">
-        {testimonials.map((testimonial, index) => (
+        {normalizedReviews.map((testimonial, index) => (
           <motion.div
-            key={index}
+            key={testimonial.author + index}
             className="testimonial-card"
             initial={{ opacity: 0, y: 60, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -128,6 +159,10 @@ const Partners = () => {
               className="cta-primary"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               Schedule Consultation
             </motion.button>

@@ -1,15 +1,61 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { projectsData } from '../../data/projectsData';
 import '../../styles/Projects.css';
 
 const Projects = () => {
   const [filter, setFilter] = useState('all');
-  const categories = ['all', 'Ocean', 'Urban', 'Wildlife', 'Water', 'Agriculture', 'Biodiversity'];
+  const [projects, setProjects] = useState(projectsData);
+  const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+  const BASE_URL = useMemo(() => API_URL.replace('/api', ''), [API_URL]);
+
+  // Fetch projects from API but keep layout/data as-is if it fails
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch(`${API_URL}/projects`);
+        if (!res.ok) throw new Error('Failed to fetch projects');
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setProjects(data);
+        } else if (Array.isArray(data?.data)) {
+          setProjects(data.data);
+        }
+      } catch (err) {
+        console.error('Projects fetch failed, using static data:', err.message);
+        setProjects(projectsData);
+      }
+    };
+    fetchProjects();
+  }, [API_URL]);
+
+  // Limit to first 6 for homepage display
+  const visibleProjects = (projects || []).slice(0, 6);
+
+  // Derive categories dynamically from fetched projects with fallback to previous static list
+  const categories = useMemo(() => {
+    const dynamic = Array.from(
+      new Set(
+        (projects || [])
+          .map((p) => p.category)
+          .filter(Boolean)
+      )
+    );
+    const fallback = ['Ocean', 'Urban', 'Wildlife', 'Water', 'Agriculture', 'Biodiversity'];
+    return ['all', ...(dynamic.length ? dynamic : fallback)];
+  }, [projects]);
 
   const filteredProjects = filter === 'all' 
-    ? projectsData 
-    : projectsData.filter(project => project.category === filter);
+    ? visibleProjects 
+    : visibleProjects.filter(project => project.category === filter);
+
+  const resolveImage = (p) => {
+    const url = p.mainImage || p.image;
+    if (!url) return '';
+    return url.startsWith('http') ? url : `${BASE_URL}${url}`;
+  };
 
   return (
     <section className="projects" id="projects">
@@ -116,6 +162,13 @@ const Projects = () => {
                 rotateX: 5,
                 transition: { duration: 0.4 }
               }}
+              onClick={() => navigate('/projects')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  navigate('/projects');
+                }
+              }}
             >
               <motion.div 
                 className="project-image-wrapper"
@@ -128,8 +181,8 @@ const Projects = () => {
                 }}
                 viewport={{ once: false }}
               >
-                <motion.img 
-                  src={project.image} 
+                  <motion.img 
+                  src={resolveImage(project)} 
                   alt={project.title}
                   initial={{ scale: 1.3 }}
                   whileInView={{ scale: 1 }}

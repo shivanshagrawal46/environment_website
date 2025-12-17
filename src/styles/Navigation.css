@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 5%;
+  padding: 1rem 5%;
   background: rgba(248, 247, 244, 0.95);
   backdrop-filter: blur(20px);
   z-index: 1000;
@@ -14,12 +14,24 @@
 }
 
 .logo {
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: var(--accent-green);
-  font-family: 'Georgia', serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
+}
+
+.logo-image {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-green);
+  font-family: 'Helvetica Neue', -apple-system, sans-serif;
 }
 
 .nav-links {
@@ -107,12 +119,16 @@
 
 @media (max-width: 768px) {
   .nav {
-    padding: 1.2rem 5%;
+    padding: 0.8rem 5%;
     background: rgba(248, 247, 244, 0.98);
   }
 
-  .logo {
-    font-size: 1.4rem;
+  .logo-image {
+    height: 55px;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
   }
 
   .nav-links {
@@ -151,11 +167,15 @@
 
 @media (max-width: 480px) {
   .nav {
-    padding: 1rem 5%;
+    padding: 0.7rem 5%;
   }
 
-  .logo {
-    font-size: 1.3rem;
+  .logo-image {
+    height: 50px;
+  }
+
+  .logo-text {
+    font-size: 1.15rem;
   }
 }
 

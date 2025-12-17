@@ -10,10 +10,27 @@ const Contact = () => {
     message: ''
   });
 
-  const handleSubmit = (e) => {
+  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    try {
+      const res = await fetch(`${API_URL}/contacts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.message || 'Failed to send message');
+      }
+
+      setFormData({ name: '', email: '', company: '', message: '' });
+      alert('Message sent successfully!');
+    } catch (err) {
+      alert(err.message || 'Something went wrong. Please try again.');
+    }
   };
 
   const handleChange = (e) => {
@@ -57,21 +74,21 @@ const Contact = () => {
               <div className="contact-icon">📧</div>
               <div>
                 <h4>Email</h4>
-                <p>partnerships@terra.org</p>
+                <p>pcbfoundation@gmail.com</p>
               </div>
             </div>
             <div className="contact-item">
               <div className="contact-icon">📞</div>
               <div>
                 <h4>Phone</h4>
-                <p>+1 (555) 123-4567</p>
+                <p>+91 8827586938</p>
               </div>
             </div>
             <div className="contact-item">
               <div className="contact-icon">📍</div>
               <div>
                 <h4>Headquarters</h4>
-                <p>San Francisco, CA</p>
+                <p>Bhopal, India</p>
               </div>
             </div>
           </div>
