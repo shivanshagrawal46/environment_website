@@ -13,11 +13,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  caret-color: transparent; /* Hide caret on non-input areas */
-}
-
-input, textarea, select {
-  caret-color: auto; /* Restore caret inside form fields */
 }
 
 code {
@@ -28,4 +23,17 @@ code {
 #root {
   width: 100%;
   overflow-x: hidden;
+}
+
+/* Hide caret on main public site when clicking non-input areas,
+   but keep it visible everywhere in the admin. */
+.app {
+  caret-color: transparent;
+}
+
+.app input,
+.app textarea,
+.app select,
+.app [contenteditable="true"] {
+  caret-color: auto;
 }
