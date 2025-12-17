@@ -11,7 +11,7 @@ const BlogDetailPage = () => {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState(blogsData);
   const [isLoading, setIsLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+  const API_URL = 'https://www.pcbfoundation.com/api';
   const BASE_URL = API_URL.replace('/api', '');
 
   const stripHtml = (html = '') => {

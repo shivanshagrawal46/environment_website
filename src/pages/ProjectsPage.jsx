@@ -10,8 +10,8 @@ const ProjectsPage = () => {
   const navigate = useNavigate();
   const [filter, setFilter] = useState('all');
   const [projects, setProjects] = useState(projectsData);
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
-  const BASE_URL = useMemo(() => API_URL.replace('/api', ''), [API_URL]);
+  const API_URL = 'https://www.pcbfoundation.com/api';
+  const BASE_URL = 'https://www.pcbfoundation.com';
 
   useEffect(() => {
     window.scrollTo(0, 0);

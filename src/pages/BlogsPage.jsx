@@ -9,8 +9,8 @@ import '../styles/BlogsPage.css';
 const BlogsPage = () => {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState(blogsData);
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
-  const BASE_URL = useMemo(() => API_URL.replace('/api', ''), [API_URL]);
+  const API_URL = 'https://www.pcbfoundation.com/api';
+  const BASE_URL = useMemo(() => API_URL.replace('/api', ''), []);
 
   const stripHtml = (html = '') => {
     if (typeof html !== 'string') return '';

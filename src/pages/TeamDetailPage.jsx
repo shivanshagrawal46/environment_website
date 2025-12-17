@@ -11,7 +11,7 @@ const TeamDetailPage = () => {
   const navigate = useNavigate();
   const [members, setMembers] = useState(teamMembersData);
   const [loading, setLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+  const API_URL = 'https://www.pcbfoundation.com/api';
   const BASE_URL = API_URL.replace('/api', '');
 
   const normalize = (m) => ({
@@ -284,12 +284,12 @@ const TeamDetailPage = () => {
                   ? `${BASE_URL}${member.photo}`
                   : member.photo;
               return (
-                <motion.div 
-                  key={member.slug}
+            <motion.div 
+              key={member.slug}
                   className="team-card"
-                  onClick={() => navigate(`/team/${member.slug}`)}
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.3 }}
+              onClick={() => navigate(`/team/${member.slug}`)}
+              whileHover={{ y: -6 }}
+              transition={{ duration: 0.3 }}
                   style={{ cursor: 'pointer' }}
                 >
                   <div className="team-avatar">
@@ -300,7 +300,7 @@ const TeamDetailPage = () => {
                       whileInView={{ scale: 1 }}
                       transition={{ duration: 0.6 }}
                     />
-                  </div>
+              </div>
                   <motion.h3
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -316,7 +316,7 @@ const TeamDetailPage = () => {
                   >
                     {member.role}
                   </motion.p>
-                </motion.div>
+            </motion.div>
               );
             })}
         </div>

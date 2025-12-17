@@ -7,7 +7,7 @@ import '../../styles/Team.css';
 const Team = () => {
   const navigate = useNavigate();
   const [members, setMembers] = useState(teamMembersData);
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+  const API_URL = 'https://www.pcbfoundation.com/api';
 
   const normalized = useMemo(() => {
     const base = API_URL.replace('/api', '');
@@ -17,7 +17,7 @@ const Team = () => {
       image: m.image && !m.image.startsWith('http') ? `${base}${m.image}` : m.image,
       coverImage: m.coverImage && !m.coverImage.startsWith('http') ? `${base}${m.coverImage}` : m.coverImage,
     }));
-  }, [members, API_URL]);
+  }, [members]);
 
   useEffect(() => {
     const fetchTeam = async () => {

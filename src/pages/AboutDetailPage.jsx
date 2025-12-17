@@ -10,7 +10,7 @@ const AboutDetailPage = () => {
   const navigate = useNavigate();
   const [team, setTeam] = useState(teamMembersData);
   const [about, setAbout] = useState(aboutPageData);
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+  const API_URL = 'https://www.pcbfoundation.com/api';
   const BASE_URL = API_URL.replace('/api', '');
 
   useEffect(() => {

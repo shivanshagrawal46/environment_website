@@ -51,7 +51,7 @@ const Hero = () => {
           loop 
           muted 
           playsInline
-          preload="auto"
+          preload="metadata"
           className="hero-video"
           webkit-playsinline="true"
           x-webkit-airplay="allow"

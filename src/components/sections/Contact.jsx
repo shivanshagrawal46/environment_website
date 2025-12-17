@@ -10,7 +10,7 @@ const Contact = () => {
     message: ''
   });
 
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+  const API_URL = 'https://www.pcbfoundation.com/api';
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -8,8 +8,8 @@ const Projects = () => {
   const [filter, setFilter] = useState('all');
   const [projects, setProjects] = useState(projectsData);
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
-  const BASE_URL = useMemo(() => API_URL.replace('/api', ''), [API_URL]);
+  const API_URL = 'https://www.pcbfoundation.com/api';
+  const BASE_URL = useMemo(() => API_URL.replace('/api', ''), []);
 
   // Fetch projects from API but keep layout/data as-is if it fails
   useEffect(() => {

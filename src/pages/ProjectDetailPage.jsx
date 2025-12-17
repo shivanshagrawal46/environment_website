@@ -12,7 +12,7 @@ const ProjectDetailPage = () => {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [allProjects, setAllProjects] = useState([]);
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+  const API_URL = 'https://www.pcbfoundation.com/api';
   const BASE_URL = API_URL.replace('/api', '');
 
   useEffect(() => {

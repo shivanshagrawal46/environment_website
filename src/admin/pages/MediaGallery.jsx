@@ -38,7 +38,7 @@ const MediaGallery = () => {
     total: 0,
   });
  
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com';
+  const API_URL = 'https://www.pcbfoundation.com';
   // Base URL for serving static uploads (without /api suffix)
   const BASE_URL = API_URL.replace('/api', '');
 

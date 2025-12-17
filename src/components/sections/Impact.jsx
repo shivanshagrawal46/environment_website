@@ -118,7 +118,7 @@ const formatValue = (label, value) => {
 
 const Impact = () => {
   const [stats, setStats] = useState(impactStats);
-  const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+  const API_URL = 'https://www.pcbfoundation.com/api';
 
   const fallbackIcons = useMemo(() => {
     const map = {};

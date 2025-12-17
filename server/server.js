@@ -60,7 +60,7 @@ app.set("trust proxy", 1);
 // Apply middleware in optimized order
 if (!IS_PROD) {
   // Allow dev frontend to access API from different origin
-  app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 }
 app.use(compression()); // Enable gzip compression for all responses
 app.use(express.json({ limit: "1mb" }));

@@ -6,7 +6,7 @@ import Footer from '../components/common/Footer';
 import axios from 'axios';
 import '../styles/CarbonCalculatorPage.css';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://www.pcbfoundation.com/api';
+const API_URL = 'https://www.pcbfoundation.com/api';
 
 const CarbonCalculatorPage = ({ embedded = false }) => {
   const navigate = useNavigate();
