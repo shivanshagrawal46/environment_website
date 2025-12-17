@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 import '../../styles/Hero.css';
@@ -6,29 +6,75 @@ import '../../styles/Hero.css';
 const Hero = () => {
   const { heroOpacity, heroScale } = useScrollAnimation();
   const videoRef = useRef(null);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
+    // Add preload link to HTML head for fastest loading
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'video';
+    preloadLink.href = '/videos/nature-video-1 (1).mp4';
+    preloadLink.type = 'video/mp4';
+    document.head.appendChild(preloadLink);
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Aggressive preload setup
+    video.muted = true;
+    video.playsInline = true;
+    video.load(); // Force immediate load
+
+    // Track when video is ready
+    const handleCanPlay = () => {
+      setIsVideoReady(true);
+    };
+
+    video.addEventListener('canplay', handleCanPlay);
+
+    // Cleanup
+    return () => {
+      video.removeEventListener('canplay', handleCanPlay);
+      // Remove preload link on unmount
+      const existingPreload = document.querySelector('link[rel="preload"][as="video"]');
+      if (existingPreload) {
+        existingPreload.remove();
+      }
+    };
+  }, []);
+
+  // Auto-play when ready
+  useEffect(() => {
     const playVideo = async () => {
-      if (videoRef.current) {
-        try {
-          videoRef.current.muted = true;
-          await videoRef.current.play();
-        } catch (error) {
-          console.log("Video autoplay prevented:", error);
-          // Retry on user interaction
-          document.addEventListener('touchstart', () => {
-            videoRef.current?.play();
-          }, { once: true });
-        }
+      const video = videoRef.current;
+      if (!video || !isVideoReady) return;
+
+      try {
+        await video.play();
+      } catch (error) {
+        console.log("Video autoplay prevented:", error);
+        
+        // Retry on any user interaction
+        const attemptPlay = () => {
+          video.play().catch(() => {});
+        };
+
+        document.addEventListener('click', attemptPlay, { once: true });
+        document.addEventListener('touchstart', attemptPlay, { once: true });
       }
     };
 
     playVideo();
+  }, [isVideoReady]);
 
-    // Handle visibility change (when tab becomes active)
+  // Handle visibility change (when tab becomes active)
+  useEffect(() => {
     const handleVisibilityChange = () => {
-      if (!document.hidden && videoRef.current?.paused) {
-        videoRef.current.play();
+      const video = videoRef.current;
+      if (!video) return;
+
+      if (!document.hidden && video.paused && isVideoReady) {
+        video.play().catch(() => {});
       }
     };
 
@@ -37,7 +83,7 @@ const Hero = () => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [isVideoReady]);
 
   return (
     <motion.section 
@@ -51,7 +97,7 @@ const Hero = () => {
           loop 
           muted 
           playsInline
-          preload="metadata"
+          preload="auto"
           className="hero-video"
           webkit-playsinline="true"
           x-webkit-airplay="allow"
@@ -101,4 +147,3 @@ const Hero = () => {
 };
 
 export default Hero;
-

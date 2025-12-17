@@ -74,13 +74,13 @@ const SplashScreen = ({ onComplete }) => {
               className="splash-progress-container"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.6 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
             >
               <motion.div
                 className="splash-progress-bar"
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
-                transition={{ duration: 1.2, delay: 0.3, ease: 'easeInOut' }}
+                transition={{ duration: 1.7, delay: 0.3, ease: 'easeInOut' }}
               />
             </motion.div>
           </div>

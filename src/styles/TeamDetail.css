@@ -439,7 +439,7 @@
 
 @media (max-width: 768px) {
   .team-hero {
-    height: 400px;
+    height: 520px;
   }
 
   .hero-profile {
@@ -481,7 +481,7 @@
 
 @media (max-width: 480px) {
   .team-hero {
-    height: 350px;
+    height: 520px;
   }
 
   .profile-info h1 {
