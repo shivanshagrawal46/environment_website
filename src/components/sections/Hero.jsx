@@ -127,8 +127,9 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
           >
-            Leading corporations toward a sustainable future through
-            <br />authentic environmental action and measurable impact
+            We design and implement environmental solutions that help institutions, 
+            <br /> communities, and landowners recreate measurable ecological impact.
+            <br /> Grounded in law, science, and accountability.
           </motion.p>
         </div>
 

@@ -175,7 +175,7 @@ const Partners = () => {
             transition={{ duration: 1, delay: 0.2, ease: [0.6, 0.05, 0.01, 0.9] }}
             viewport={{ once: false, margin: "-100px" }}
           >
-            <motion.img 
+            {/* <motion.img 
               src="/images/character.png" 
               alt="Environmental steward" 
               className="character-img"
@@ -183,7 +183,7 @@ const Partners = () => {
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1.2 }}
               viewport={{ once: false }}
-            />
+            /> */}
           </motion.div>
         </div>
       </motion.div>

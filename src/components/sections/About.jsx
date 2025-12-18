@@ -1,9 +1,30 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { aboutPageData } from '../../data/teamData';
 import '../../styles/About.css';
 
 const About = () => {
   const navigate = useNavigate();
+  const [about, setAbout] = useState(aboutPageData);
+  const API_URL = 'https://www.pcbfoundation.com/api';
+
+  useEffect(() => {
+    const fetchAbout = async () => {
+      try {
+        const res = await fetch(`${API_URL}/about`);
+        if (!res.ok) throw new Error('Failed to fetch about');
+        const data = await res.json();
+        if (data) {
+          setAbout(data);
+        }
+      } catch (err) {
+        console.error('About section fetch failed, using fallback:', err.message);
+        setAbout(aboutPageData);
+      }
+    };
+    fetchAbout();
+  }, [API_URL]);
 
   return (
     <section className="about" id="about">
@@ -39,10 +60,11 @@ const About = () => {
               color: 'transparent'
             }}
           >
-            We bridge the gap between
+            {/* We bridge the gap between
             <br />
             corporate responsibility and
-            <br />
+            <br /> */}
+            Turning Responsibility into
             <motion.span 
               className="text-accent-animated"
               initial={{ backgroundPosition: '100% 50%' }}
@@ -58,14 +80,14 @@ const About = () => {
                 display: 'inline-block'
               }}
             >
-              environmental preservation
+              {/* environmental preservation */}
+              Real Impact
+            
             </motion.span>
           </motion.h2>
           <p className="about-description">
-            PCB Foundation partners with forward-thinking corporations to create 
-            meaningful, lasting environmental impact. Our data-driven approach 
-            ensures authenticity, transparency, and measurable results that 
-            enhance your ESG commitments.
+          We work with organisations to translate sustainability commitments into on-ground environmental action.
+          <br/>Our approach combines legal accountability, field execution, and transparent impact measurement ensuring ESG initiatives are credible, compliant, and effective.
           </p>
           <div className="about-cta-row">
             <motion.button 
@@ -86,7 +108,7 @@ const About = () => {
               viewport={{ once: false }}
             >
               <h3>Mission</h3>
-              <p>To restore and protect ecosystems through corporate partnerships</p>
+              <p>{about.mission || aboutPageData.mission}</p>
             </motion.div>
             <motion.div 
               className="feature-box"
@@ -96,7 +118,7 @@ const About = () => {
               viewport={{ once: false }}
             >
               <h3>Vision</h3>
-              <p>A world where business drives environmental regeneration</p>
+              <p>{about.vision || aboutPageData.vision}</p>
             </motion.div>
           </div>
         </motion.div>

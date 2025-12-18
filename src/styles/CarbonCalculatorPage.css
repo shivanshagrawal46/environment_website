@@ -111,6 +111,20 @@
   font-size: 4rem;
   margin-bottom: 1.5rem;
   transition: transform 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.type-icon img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.type-card:first-child .type-icon img {
+  width: 110px;
+  height: 110px;
 }
 
 .type-card:hover .type-icon {
@@ -873,6 +887,16 @@
 
   .type-icon {
     font-size: 3rem;
+  }
+
+  .type-icon img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .type-card:first-child .type-icon img {
+    width: 100px;
+    height: 100px;
   }
 
   .calculator-form {

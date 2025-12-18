@@ -74,7 +74,7 @@ const Contact = () => {
               <div className="contact-icon">📧</div>
               <div>
                 <h4>Email</h4>
-                <p>pcbfoundation@gmail.com</p>
+                <p>mailpcbfoundation@gmail.com</p>
               </div>
             </div>
             <div className="contact-item">
@@ -88,7 +88,7 @@ const Contact = () => {
               <div className="contact-icon">📍</div>
               <div>
                 <h4>Headquarters</h4>
-                <p>Bhopal, India</p>
+                <p>Delhi, India</p>
               </div>
             </div>
           </div>

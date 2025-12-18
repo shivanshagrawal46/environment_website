@@ -123,15 +123,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: white !important;
   font-size: 18px;
   transition: all 0.3s ease;
   border: 1px solid rgba(255,255,255,0.3);
 }
 
+.social-link i {
+  color: white !important;
+}
+
 .social-link:hover {
   background: rgba(255,255,255,0.3);
   transform: translateY(-3px);
+}
+
+.social-link:hover i {
+  color: white !important;
 }
 
 /* Main Content */

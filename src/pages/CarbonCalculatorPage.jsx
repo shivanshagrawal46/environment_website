@@ -187,7 +187,9 @@ const CarbonCalculatorPage = ({ embedded = false }) => {
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.6, delay: embedded ? 0.2 : 0.8 }}
               >
-                <div className="type-icon">🚗</div>
+                <div className="type-icon">
+                  <img src="/images/car.png" alt="Car" />
+                </div>
                 <h3>Transportation</h3>
                 <p>Calculate emissions from your daily commute</p>
                 <span className="type-label">Cars • Motorcycles</span>
@@ -202,7 +204,9 @@ const CarbonCalculatorPage = ({ embedded = false }) => {
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.6, delay: embedded ? 0.3 : 0.9 }}
               >
-                <div className="type-icon">🏠</div>
+                <div className="type-icon">
+                  <img src="/images/house.png" alt="House" />
+                </div>
                 <h3>Home Energy</h3>
                 <p>Calculate emissions from household usage</p>
                 <span className="type-label">Electricity • LPG • Gas</span>

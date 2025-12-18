@@ -129,22 +129,27 @@ const TeamDetailPage = () => {
                   transition={{ delay: 0.4, duration: 0.6 }}
                 >
                   {teamMember.socials.linkedin && (
-                    <a href={teamMember.socials.linkedin} target="_blank" rel="noopener noreferrer" className="social-link">
+                    <a href={teamMember.socials.linkedin} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn">
                       <i className="fab fa-linkedin"></i>
                     </a>
                   )}
+                  {teamMember.socials.facebook && (
+                    <a href={teamMember.socials.facebook} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Facebook">
+                      <i className="fab fa-facebook"></i>
+                    </a>
+                  )}
                   {teamMember.socials.twitter && (
-                    <a href={teamMember.socials.twitter} target="_blank" rel="noopener noreferrer" className="social-link">
+                    <a href={teamMember.socials.twitter} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Twitter">
                       <i className="fab fa-twitter"></i>
                     </a>
                   )}
                   {teamMember.socials.instagram && (
-                    <a href={teamMember.socials.instagram} target="_blank" rel="noopener noreferrer" className="social-link">
+                    <a href={teamMember.socials.instagram} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Instagram">
                       <i className="fab fa-instagram"></i>
                     </a>
                   )}
                   {teamMember.email && (
-                    <a href={`mailto:${teamMember.email}`} className="social-link">
+                    <a href={`mailto:${teamMember.email}`} className="social-link" aria-label="Email">
                       <i className="fas fa-envelope"></i>
                     </a>
                   )}
