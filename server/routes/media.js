@@ -13,9 +13,13 @@ const __dirname = path.dirname(__filename);
 const router = express.Router();
 
 // Create uploads directory if it doesn't exist
-const uploadsDir = path.join(__dirname, "../../public/uploads");
+// Use path.resolve to ensure absolute path (matching server.js)
+const uploadsDir = path.resolve(__dirname, "../../public/uploads");
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log("📁 Created uploads directory:", uploadsDir);
+} else {
+  console.log("📁 Using uploads directory:", uploadsDir);
 }
 
 // Configure multer for memory storage (we'll process with sharp)
@@ -53,6 +57,14 @@ router.post("/", protect, upload.single("image"), async (req, res) => {
     const ext = ".webp"; // Convert all to WebP for better compression
     const filename = `${timestamp}-${randomStr}${ext}`;
     const filepath = path.join(uploadsDir, filename);
+    
+    // Log paths for debugging
+    console.log("📤 Upload attempt:", {
+      uploadsDir,
+      filename,
+      filepath,
+      uploadsDirExists: fs.existsSync(uploadsDir)
+    });
 
     // Optimize image with sharp
     const imageBuffer = await sharp(req.file.buffer)
@@ -78,13 +90,35 @@ router.post("/", protect, upload.single("image"), async (req, res) => {
         .toBuffer();
     }
 
-    // Save the optimized image
-    fs.writeFileSync(filepath, finalBuffer);
+    // Ensure uploads directory exists before writing
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+      console.log("📁 Created uploads directory:", uploadsDir);
+    }
+
+    // Save the optimized image with error handling
+    try {
+      fs.writeFileSync(filepath, finalBuffer);
+    } catch (writeError) {
+      console.error("❌ File write error:", writeError);
+      throw new Error(`Failed to write file to disk: ${writeError.message}`);
+    }
+    
+    // Verify file was written and is readable
+    if (!fs.existsSync(filepath)) {
+      throw new Error(`File was not created at: ${filepath}`);
+    }
+    
+    // Verify file size matches
+    const stats = fs.statSync(filepath);
+    if (stats.size !== finalBuffer.length) {
+      console.warn(`⚠️ File size mismatch: expected ${finalBuffer.length}, got ${stats.size}`);
+    }
 
     // Get image metadata
     const metadata = await sharp(finalBuffer).metadata();
 
-    // Create media record
+    // Create media record only after file is confirmed saved
     const url = `/uploads/${filename}`;
     const media = await Media.create({
       filename,
@@ -99,9 +133,22 @@ router.post("/", protect, upload.single("image"), async (req, res) => {
       uploadedBy: req.user.id,
     });
 
+    console.log("✅ Image uploaded successfully:", {
+      filename,
+      filepath,
+      url,
+      size: finalBuffer.length,
+      dimensions: `${metadata.width}x${metadata.height}`
+    });
     res.status(201).json(media);
   } catch (err) {
-    console.error("Upload error:", err);
+    console.error("❌ Upload error:", err);
+    console.error("Error details:", {
+      message: err.message,
+      stack: err.stack,
+      uploadsDir,
+      filename: req.file?.originalname
+    });
     res.status(500).json({ message: "Failed to upload image", error: err.message });
   }
 });
