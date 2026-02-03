@@ -236,35 +236,6 @@ const Donate = () => {
 
           <p className="tax-info">Tax-deductible • Secure payment via Razorpay • 100% goes to projects</p>
         </motion.div>
-
-          <motion.div
-            className="donate-visual"
-            initial={{ opacity: 0, x: 80, scale: 0.9 }}
-            whileInView={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.6, 0.05, 0.01, 0.9] }}
-            viewport={{ once: false, margin: "-100px" }}
-          >
-            <motion.img 
-              src="/images/download8.png" 
-              alt="Environmental impact"
-              initial={{ scale: 1.2, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1.2, ease: [0.6, 0.05, 0.01, 0.9] }}
-              viewport={{ once: false }}
-            />
-            <div className="visual-stats">
-              <motion.div 
-                className="stat-badge"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                viewport={{ once: false }}
-              >
-                <strong>98%</strong>
-                <span>Efficiency Rating</span>
-              </motion.div>
-            </div>
-          </motion.div>
       </div>
     </section>
   );

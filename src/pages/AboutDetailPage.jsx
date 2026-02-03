@@ -326,10 +326,22 @@ const AboutDetailPage = () => {
           <h2>Join Us in Making a Difference</h2>
           <p>Whether through partnership, donation, or volunteering, there are many ways to support our mission.</p>
           <div className="cta-buttons">
-            <button className="primary-btn" onClick={() => navigate('/contact')}>
+            <button className="primary-btn" onClick={() => {
+              navigate('/');
+              setTimeout(() => {
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }, 100);
+            }}>
               Get in Touch
             </button>
-            <button className="secondary-btn" onClick={() => navigate('/donate')}>
+            <button className="secondary-btn" onClick={() => {
+              navigate('/');
+              setTimeout(() => {
+                const el = document.getElementById('donate');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }, 100);
+            }}>
               Support Our Work
             </button>
           </div>

@@ -265,7 +265,15 @@ const TeamDetailPage = () => {
                 </div>
               )}
 
-              <button className="contact-btn" onClick={() => navigate('/contact')}>
+              <button className="contact-btn" onClick={() => {
+                navigate('/');
+                setTimeout(() => {
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }, 100);
+              }}>
                 Get in Touch
               </button>
             </motion.div>

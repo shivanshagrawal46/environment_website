@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../../styles/Footer.css';
 
 const Footer = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +26,19 @@ const Footer = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const scrollToSection = (sectionId) => {
+    if (location.pathname === '/') {
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  };
+
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -32,45 +48,28 @@ const Footer = () => {
             <h3>PCB Foundation</h3>
           </div>
           <p>Preserving tomorrow, today</p>
-          <div className="footer-social">
-            <a href="#" aria-label="LinkedIn">LinkedIn</a>
-            <a href="#" aria-label="Twitter">Twitter</a>
-            <a href="#" aria-label="Instagram">Instagram</a>
-            <a href="#" aria-label="Facebook">Facebook</a>
-          </div>
         </div>
 
         <div className="footer-links">
           <div className="footer-column">
             <h4>Organization</h4>
-            <a href="#about">About Us</a>
-            <a href="#team">Our Team</a>
-            <a href="#news">News</a>
-            <a href="#contact">Contact</a>
+            <a onClick={() => navigate('/about-us')} style={{ cursor: 'pointer' }}>About Us</a>
+            <a onClick={() => navigate('/team')} style={{ cursor: 'pointer' }}>Our Team</a>
+            <a onClick={() => scrollToSection('contact')} style={{ cursor: 'pointer' }}>Contact</a>
           </div>
 
           <div className="footer-column">
             <h4>Programs</h4>
-            <a href="#projects">Projects</a>
-            <a href="#initiatives">Initiatives</a>
-            <a href="#impact">Impact Reports</a>
-            <a href="#partner">Partnerships</a>
+            <a onClick={() => navigate('/projects')} style={{ cursor: 'pointer' }}>Projects</a>
+            <a onClick={() => navigate('/blogs')} style={{ cursor: 'pointer' }}>Blogs</a>
+            <a onClick={() => scrollToSection('partner')} style={{ cursor: 'pointer' }}>Partnerships</a>
           </div>
 
           <div className="footer-column">
             <h4>Get Involved</h4>
-            <a href="#donate">Donate</a>
-            <a href="#partner">Partner With Us</a>
-            <a href="#">Volunteer</a>
-            <a href="#">Corporate Programs</a>
-          </div>
-
-          <div className="footer-column">
-            <h4>Resources</h4>
-            <a href="#">Documentation</a>
-            <a href="#">Research Papers</a>
-            <a href="#">Annual Reports</a>
-            <a href="#">Media Kit</a>
+            <a onClick={() => scrollToSection('donate')} style={{ cursor: 'pointer' }}>Donate</a>
+            <a onClick={() => scrollToSection('partner')} style={{ cursor: 'pointer' }}>Partner With Us</a>
+            <a onClick={() => scrollToSection('contact')} style={{ cursor: 'pointer' }}>Contact Us</a>
           </div>
         </div>
       </div>
@@ -80,7 +79,6 @@ const Footer = () => {
         <div className="footer-legal">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
-          <a href="#">Cookie Policy</a>
         </div>
       </div>
 

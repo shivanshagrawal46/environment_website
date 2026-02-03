@@ -4,12 +4,10 @@
 }
 
 .donate-container {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 6rem;
-  max-width: var(--container-max);
+  display: flex;
+  justify-content: center;
+  max-width: 700px;
   margin: 0 auto;
-  align-items: center;
 }
 
 .donate-description {
@@ -187,17 +185,16 @@
 }
 
 @media (max-width: 1024px) {
-  .donate-container {
-    grid-template-columns: 1fr;
-    gap: 4rem;
-  }
-
   .amount-buttons {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 768px) {
+  .donate-container {
+    padding: 0 1rem;
+  }
+
   .amount-buttons {
     grid-template-columns: repeat(2, 1fr);
   }

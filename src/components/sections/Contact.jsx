@@ -92,12 +92,6 @@ const Contact = () => {
               </div>
             </div>
           </div>
-
-          <div className="social-links">
-            <a href="#" aria-label="LinkedIn">LinkedIn</a>
-            <a href="#" aria-label="Twitter">Twitter</a>
-            <a href="#" aria-label="Instagram">Instagram</a>
-          </div>
         </motion.div>
 
         <motion.form
