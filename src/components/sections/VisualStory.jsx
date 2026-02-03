@@ -60,9 +60,9 @@ const VisualStory = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: false }}
         >
-          Forest Conservation
+          Community Engagement
         </motion.span>
-        <h2 className="section-title">Protecting our planet's lungs</h2>
+        <h2 className="section-title">Empowering people to foster a culture of sustainability</h2>
         <p className="story-subtitle">
           Preserving nature's most vital landscapes with science, community, and care
         </p>

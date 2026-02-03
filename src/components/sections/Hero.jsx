@@ -128,7 +128,7 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.8 }}
           >
             We design and implement environmental solutions that help institutions, 
-            <br /> communities, and landowners recreate measurable ecological impact.
+            <br /> communities, and landowners create measurable ecological impact.
             <br /> Grounded in law, science, and accountability.
           </motion.p>
         </div>

@@ -17,11 +17,11 @@ const CarbonCalculatorPage = ({ embedded = false }) => {
       mode: 'car',
       subtype: 'medium',
       fuel: 'petrol',
-      distanceKm: 100
+      distanceKm: ''
     },
     home: {
-      electricityKwh: 300,
-      lpgKg: 12
+      electricityKwh: '',
+      lpgKg: ''
     }
   });
   const [results, setResults] = useState(null);
@@ -39,9 +39,15 @@ const CarbonCalculatorPage = ({ embedded = false }) => {
       try {
         const payload = {};
         if (calculationType === 'transport') {
-          payload.transport = formData.transport;
+          payload.transport = {
+            ...formData.transport,
+            distanceKm: formData.transport.distanceKm === '' ? 0 : formData.transport.distanceKm
+          };
         } else if (calculationType === 'home') {
-          payload.home = formData.home;
+          payload.home = {
+            electricityKwh: formData.home.electricityKwh === '' ? 0 : formData.home.electricityKwh,
+            lpgKg: formData.home.lpgKg === '' ? 0 : formData.home.lpgKg
+          };
         }
 
         const response = await axios.post(`${API_URL}/carbon/calculate`, payload);
@@ -300,7 +306,7 @@ const CarbonCalculatorPage = ({ embedded = false }) => {
                     value={formData.transport.distanceKm}
                     onChange={(e) => setFormData({
                       ...formData,
-                      transport: { ...formData.transport, distanceKm: parseFloat(e.target.value) || 0 }
+                      transport: { ...formData.transport, distanceKm: e.target.value === '' ? '' : parseFloat(e.target.value) }
                     })}
                     placeholder="Enter distance in km"
                     min="0"
@@ -335,7 +341,7 @@ const CarbonCalculatorPage = ({ embedded = false }) => {
                     value={formData.home.electricityKwh}
                     onChange={(e) => setFormData({
                       ...formData,
-                      home: { ...formData.home, electricityKwh: parseFloat(e.target.value) || 0 }
+                      home: { ...formData.home, electricityKwh: e.target.value === '' ? '' : parseFloat(e.target.value) }
                     })}
                     placeholder="Enter kWh"
                     min="0"
@@ -351,7 +357,7 @@ const CarbonCalculatorPage = ({ embedded = false }) => {
                     value={formData.home.lpgKg}
                     onChange={(e) => setFormData({
                       ...formData,
-                      home: { ...formData.home, lpgKg: parseFloat(e.target.value) || 0 }
+                      home: { ...formData.home, lpgKg: e.target.value === '' ? '' : parseFloat(e.target.value) }
                     })}
                     placeholder="Enter kg"
                     min="0"
@@ -571,23 +577,35 @@ const CarbonCalculatorPage = ({ embedded = false }) => {
                 <p>Every action counts. Together, we can offset these emissions and create a sustainable future.</p>
                 
                 <div className="cta-buttons">
-                  <motion.a
-                    href="#contact"
+                  <motion.button
                     className="cta-button primary"
                     whileHover={{ scale: 1.05, y: -3 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      navigate('/');
+                      setTimeout(() => {
+                        const el = document.getElementById('contact');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
+                    }}
                   >
                     Contact Us
-                  </motion.a>
+                  </motion.button>
                   
-                  <motion.a
-                    href="#donate"
+                  <motion.button
                     className="cta-button secondary"
                     whileHover={{ scale: 1.05, y: -3 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      navigate('/');
+                      setTimeout(() => {
+                        const el = document.getElementById('donate');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
+                    }}
                   >
                     Support Our Mission
-                  </motion.a>
+                  </motion.button>
                 </div>
               </div>
             </motion.div>

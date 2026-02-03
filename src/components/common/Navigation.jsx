@@ -68,9 +68,9 @@ const Navigation = () => {
         <a onClick={handleProjectsClick}>Projects</a>
         <a onClick={() => navigate('/blogs')}>Blogs</a>
         <a onClick={handleCarbonClick}>Carbon Calculator</a>
-        <a onClick={() => scrollToSection('team')}>Team</a>
-        <a onClick={() => scrollToSection('donate')}>Donate</a>
-        <a onClick={() => scrollToSection('contact')}>Contact</a>
+        <a onClick={() => { navigate('/team'); setIsMenuOpen(false); }}>Team</a>
+        <a onClick={() => scrollToSection('contact')}>Join Our Mission</a>
+        {/* <a onClick={() => scrollToSection('contact')}>Contact</a> */}
       </div>
 
       <div className="nav-actions">

@@ -100,7 +100,7 @@ const About = () => {
             </motion.button>
           </div>
           <div className="about-features">
-            <motion.div 
+            {/* <motion.div 
               className="feature-box"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -109,8 +109,8 @@ const About = () => {
             >
               <h3>Mission</h3>
               <p>{about.mission || aboutPageData.mission}</p>
-            </motion.div>
-            <motion.div 
+            </motion.div> */}
+            {/* <motion.div 
               className="feature-box"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -119,7 +119,7 @@ const About = () => {
             >
               <h3>Vision</h3>
               <p>{about.vision || aboutPageData.vision}</p>
-            </motion.div>
+            </motion.div> */}
           </div>
         </motion.div>
 

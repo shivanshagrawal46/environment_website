@@ -5,11 +5,20 @@ import { projectsData } from '../../data/projectsData';
 import '../../styles/Projects.css';
 
 const Projects = () => {
-  const [filter, setFilter] = useState('all');
   const [projects, setProjects] = useState(projectsData);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const navigate = useNavigate();
   const API_URL = 'https://www.pcbfoundation.com/api';
   const BASE_URL = useMemo(() => API_URL.replace('/api', ''), []);
+
+  // Track screen size for responsive display
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Fetch projects from API but keep layout/data as-is if it fails
   useEffect(() => {
@@ -31,25 +40,8 @@ const Projects = () => {
     fetchProjects();
   }, [API_URL]);
 
-  // Limit to first 6 for homepage display
-  const visibleProjects = (projects || []).slice(0, 6);
-
-  // Derive categories dynamically from fetched projects with fallback to previous static list
-  const categories = useMemo(() => {
-    const dynamic = Array.from(
-      new Set(
-        (projects || [])
-          .map((p) => p.category)
-          .filter(Boolean)
-      )
-    );
-    const fallback = ['Ocean', 'Urban', 'Wildlife', 'Water', 'Agriculture', 'Biodiversity'];
-    return ['all', ...(dynamic.length ? dynamic : fallback)];
-  }, [projects]);
-
-  const filteredProjects = filter === 'all' 
-    ? visibleProjects 
-    : visibleProjects.filter(project => project.category === filter);
+  // Show 1 project on mobile, 3 on desktop
+  const visibleProjects = (projects || []).slice(0, isMobile ? 1 : 3);
 
   const resolveImage = (p) => {
     const url = p.mainImage || p.image;
@@ -104,39 +96,11 @@ const Projects = () => {
       </motion.div>
 
       <motion.div 
-        className="projects-filters"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        viewport={{ once: false, margin: "-100px" }}
-      >
-        {categories.map((category, index) => (
-          <motion.button
-            key={category}
-            className={`filter-btn ${filter === category ? 'active' : ''}`}
-            onClick={() => setFilter(category)}
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ 
-              duration: 0.5, 
-              delay: 0.5 + (index * 0.05),
-              ease: [0.6, 0.05, 0.01, 0.9]
-            }}
-            viewport={{ once: false }}
-            whileHover={{ scale: 1.08, y: -3 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {category}
-          </motion.button>
-        ))}
-      </motion.div>
-
-      <motion.div 
         className="projects-grid"
         layout
       >
         <AnimatePresence mode="wait">
-          {filteredProjects.map((project, index) => (
+          {visibleProjects.map((project, index) => (
             <motion.div
               key={project.id}
               className="project-card"
@@ -281,6 +245,23 @@ const Projects = () => {
             </motion.div>
           ))}
         </AnimatePresence>
+      </motion.div>
+
+      <motion.div
+        className="projects-cta"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.6, 0.05, 0.01, 0.9] }}
+        viewport={{ once: false, margin: "-100px" }}
+      >
+        <motion.button 
+          className="cta-secondary"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => navigate('/projects')}
+        >
+          View All Projects
+        </motion.button>
       </motion.div>
     </section>
   );

@@ -6,9 +6,19 @@ import '../../styles/News.css';
 
 const News = () => {
   const navigate = useNavigate();
-  const [blogs, setBlogs] = useState(blogsData.slice(0, 3));
+  const [blogs, setBlogs] = useState(blogsData);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const API_URL = 'https://www.pcbfoundation.com/api';
   const BASE_URL = useMemo(() => API_URL.replace('/api', ''), []);
+
+  // Track screen size for responsive display
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const stripHtml = (html = '') => {
     if (typeof html !== 'string') return '';
@@ -32,8 +42,10 @@ const News = () => {
     return `${BASE_URL}${url}`;
   };
 
+  // Show 1 blog on mobile, 3 on desktop
   const normalizedBlogs = useMemo(() => {
-    return (blogs || []).slice(0, 3).map((item) => {
+    const displayCount = isMobile ? 1 : 3;
+    return (blogs || []).slice(0, displayCount).map((item) => {
       const displayImage = resolveMedia(item.mainImage || item.coverImage || item.image);
       const fallbackExcerpt =
         typeof item.content === 'string'
@@ -48,7 +60,7 @@ const News = () => {
         category: displayCategory,
       };
     });
-  }, [blogs, BASE_URL]);
+  }, [blogs, BASE_URL, isMobile]);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -60,7 +72,7 @@ const News = () => {
         if (list.length) setBlogs(list);
       } catch (err) {
         console.error('Home blogs fetch failed, using static data:', err.message);
-        setBlogs(blogsData.slice(0, 3));
+        setBlogs(blogsData);
       }
     };
     fetchBlogs();

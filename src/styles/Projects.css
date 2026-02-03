@@ -275,6 +275,11 @@
   z-index: 10;
 }
 
+.projects-cta {
+  text-align: center;
+  margin-top: 4rem;
+}
+
 @media (max-width: 768px) {
   .projects-grid {
     grid-template-columns: 1fr;

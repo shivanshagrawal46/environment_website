@@ -8,6 +8,7 @@ import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import CarbonCalculatorPage from './pages/CarbonCalculatorPage';
 import TeamDetailPage from './pages/TeamDetailPage';
+import TeamPage from './pages/TeamPage';
 import AboutDetailPage from './pages/AboutDetailPage';
 import AdminLogin from './admin/pages/Login';
 import AdminLayout from './admin/components/AdminLayout';
@@ -86,6 +87,7 @@ function App() {
             <Route path="/carbon-calculator" element={<CarbonCalculatorPage />} />
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/blogs/:slug" element={<BlogDetailPage />} />
+            <Route path="/team" element={<TeamPage />} />
             <Route path="/team/:slug" element={<TeamDetailPage />} />
             <Route path="/about-us" element={<AboutDetailPage />} />
             <Route path="/carbon-calculator" element={<CarbonCalculator />} />

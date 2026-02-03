@@ -1,5 +1,6 @@
 .impact {
   padding: var(--section-padding);
+  padding-bottom: 4rem;
   background: var(--primary-light);
 }
 
@@ -19,9 +20,9 @@
 
 .impact-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
-  max-width: var(--container-max);
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -67,6 +68,10 @@
 }
 
 @media (max-width: 768px) {
+  .impact {
+    padding-bottom: 2.5rem;
+  }
+
   .impact-grid {
     grid-template-columns: 1fr;
     gap: 2rem;

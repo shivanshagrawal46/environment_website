@@ -56,7 +56,7 @@ const Partners = () => {
 
   return (
     <section className="partners" id="partners">
-      <motion.div
+      {/* <motion.div
         className="partners-header"
         initial={{ opacity: 0, y: 50, scale: 0.95 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -76,9 +76,9 @@ const Partners = () => {
         <p className="partners-subtitle">
           Join 850+ companies making a real difference
         </p>
-      </motion.div>
+      </motion.div> */}
 
-      <div className="testimonials-grid">
+      {/* <div className="testimonials-grid">
         {normalizedReviews.map((testimonial, index) => (
           <motion.div
             key={testimonial.author + index}
@@ -102,7 +102,7 @@ const Partners = () => {
             </div>
           </motion.div>
         ))}
-      </div>
+      </div> */}
 
       <motion.div
         className="partnership-cta-section"
@@ -166,6 +166,35 @@ const Partners = () => {
             >
               Schedule Consultation
             </motion.button>
+
+            {/* Our Partners Logo Scroll */}
+            <motion.div
+              className="partners-logos-section"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              viewport={{ once: false }}
+            >
+              <h4 className="partners-logos-title">Our Partners</h4>
+              <div className="partners-logos-wrapper">
+                <div className="partners-logos-track">
+                  {/* First set of logos */}
+                  <img src="/images/logo1.PNG" alt="Partner 1" />
+                  <img src="/images/logo2.PNG" alt="Partner 2" />
+                  <img src="/images/logo3.PNG" alt="Partner 3" />
+                  <img src="/images/logo4.PNG" alt="Partner 4" />
+                  <img src="/images/logo5.PNG" alt="Partner 5" />
+                  <img src="/images/logo6.jpeg" alt="Partner 6" />
+                  {/* Duplicate for seamless loop */}
+                  <img src="/images/logo1.PNG" alt="Partner 1" />
+                  <img src="/images/logo2.PNG" alt="Partner 2" />
+                  <img src="/images/logo3.PNG" alt="Partner 3" />
+                  <img src="/images/logo4.PNG" alt="Partner 4" />
+                  <img src="/images/logo5.PNG" alt="Partner 5" />
+                  <img src="/images/logo6.jpeg" alt="Partner 6" />
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
 
           <motion.div

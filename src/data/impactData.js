@@ -1,12 +1,7 @@
 export const impactStats = [
   { number: "2.4M", label: "Trees Planted", icon: "🌳" },
-  { number: "850+", label: "Corporate Partners", icon: "🤝" },
-  { number: "15K", label: "Hectares Restored", icon: "🌍" },
-  { number: "98%", label: "Client Retention", icon: "⭐" },
   { number: "45", label: "Countries", icon: "🗺️" },
-  { number: "5M", label: "Tons CO2 Offset", icon: "♻️" },
-  { number: "150", label: "Species Protected", icon: "🦁" },
-  { number: "50K", label: "Lives Impacted", icon: "👥" }
+  { number: "5M", label: "Tons CO2 Offset", icon: "♻️" }
 ];
 
 export const initiatives = [

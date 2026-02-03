@@ -7,7 +7,7 @@ import VisualStory from './components/sections/VisualStory';
 import Impact from './components/sections/Impact';
 import CarbonCalculatorPage from './pages/CarbonCalculatorPage';
 import Partners from './components/sections/Partners';
-import Team from './components/sections/Team';
+import Team from './components/sections/Team'; // Kept for CSS - component hidden below
 import Donate from './components/sections/Donate';
 import News from './components/sections/News';
 import Contact from './components/sections/Contact';
@@ -23,7 +23,7 @@ function MainWebsite() {
       <Impact />
       <CarbonCalculatorPage embedded />
       <Partners />
-      <Team />
+      {/* <Team /> */}
       <Donate />
       <News />
       <Contact />

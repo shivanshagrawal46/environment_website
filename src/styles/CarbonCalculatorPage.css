@@ -12,6 +12,11 @@
   cursor: pointer;
 }
 
+.carbon-embedded .calculator-section {
+  min-height: auto;
+  padding: 4rem 5% 4.5rem;
+}
+
 .calculator-section {
   min-height: 100vh;
   padding: 110px 5% 4.5rem;
@@ -818,6 +823,10 @@
 @media (max-width: 768px) {
   .calculator-section {
     padding: 120px 5% 4rem;
+  }
+
+  .carbon-embedded .calculator-section {
+    padding: 2.5rem 5% 3rem;
   }
 
   .calculator-hero h1 {

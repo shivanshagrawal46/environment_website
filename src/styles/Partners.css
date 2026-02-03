@@ -169,6 +169,86 @@
   filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
 }
 
+/* Partners Logos Scrolling Section */
+.partners-logos-section {
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+}
+
+.partners-logos-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+}
+
+.partners-logos-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+/* Fade edges using pseudo elements */
+.partners-logos-wrapper::before,
+.partners-logos-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.partners-logos-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--white), transparent);
+}
+
+.partners-logos-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--white), transparent);
+}
+
+.partners-logos-track {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  width: max-content;
+  animation: scroll-logos 25s linear infinite;
+  padding-left: 20px;
+}
+
+.partners-logos-track img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.partners-logos-track img:hover {
+  transform: scale(1.1);
+}
+
+@keyframes scroll-logos {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause animation on hover */
+.partners-logos-wrapper:hover .partners-logos-track {
+  animation-play-state: paused;
+}
+
 @media (max-width: 1024px) {
   .testimonials-grid {
     grid-template-columns: 1fr;
@@ -177,6 +257,71 @@
   .partnership-content {
     grid-template-columns: 1fr;
     gap: 4rem;
+  }
+
+  .partners-logos-track {
+    gap: 2.5rem;
+  }
+
+  .partners-logos-track img {
+    height: 35px;
+  }
+}
+
+@media (max-width: 768px) {
+  .partnership-cta-section {
+    padding: 3rem 5%;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .partners-logos-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  .partners-logos-wrapper::before,
+  .partners-logos-wrapper::after {
+    width: 30px;
+  }
+
+  .partners-logos-track {
+    gap: 2rem;
+    animation-duration: 18s;
+    padding-left: 10px;
+  }
+
+  .partners-logos-track img {
+    height: 30px;
+    max-width: 80px;
+  }
+
+  .partners-logos-title {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .partnership-cta-section {
+    padding: 2rem 4%;
+    overflow: hidden;
+  }
+
+  .partners-logos-wrapper::before,
+  .partners-logos-wrapper::after {
+    width: 20px;
+  }
+
+  .partners-logos-track {
+    gap: 1.5rem;
+    animation-duration: 15s;
+    padding-left: 5px;
+  }
+
+  .partners-logos-track img {
+    height: 25px;
+    max-width: 60px;
   }
 }
 

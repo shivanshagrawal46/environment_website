@@ -116,6 +116,9 @@ const formatValue = (label, value) => {
   return str;
 };
 
+// Only show these specific stats
+const ALLOWED_STATS = ['Trees Planted', 'Countries', 'Tons CO2 Offset'];
+
 const Impact = () => {
   const [stats, setStats] = useState(impactStats);
   const API_URL = 'https://www.pcbfoundation.com/api';
@@ -135,11 +138,13 @@ const Impact = () => {
         if (!res.ok) throw new Error('Failed to fetch stats');
         const data = await res.json();
         const normalized = Array.isArray(data)
-          ? data.map((item) => ({
-              number: formatValue(item.label, item.value),
-              label: item.label,
-              icon: item.icon || fallbackIcons[item.label] || '📊',
-            }))
+          ? data
+              .filter((item) => ALLOWED_STATS.includes(item.label))
+              .map((item) => ({
+                number: formatValue(item.label, item.value),
+                label: item.label,
+                icon: item.icon || fallbackIcons[item.label] || '📊',
+              }))
           : [];
         if (normalized.length) {
           setStats(normalized);
