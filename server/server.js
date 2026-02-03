@@ -26,6 +26,7 @@ import categoryRoutes from "./routes/categories.js";
 import tagRoutes from "./routes/tags.js";
 import carbonRoutes from "./routes/carbon.js";
 import reviewRoutes from "./routes/reviews.js";
+import paymentRoutes from "./routes/payment.js";
 import Admin from "./models/Admin.js";
 
 const app = express();
@@ -76,6 +77,7 @@ app.get("/api/health", (_req, res) => {
 // Serve uploaded files statically (resolve absolute path)
 const uploadsPath = path.resolve(__dirname, "../public/uploads");
 console.log("📂 Serving static uploads from:", uploadsPath);
+console.log("📂 Uploads directory exists:", fs.existsSync(uploadsPath));
 
 // Test endpoint to verify uploads path
 app.get("/uploads-test", (req, res) => {
@@ -83,11 +85,36 @@ app.get("/uploads-test", (req, res) => {
   res.json({ 
     uploadsPath, 
     exists: fs.existsSync(uploadsPath),
+    fileCount: files.length,
     files: files.slice(0, 10) // Show first 10 files
   });
 });
 
-app.use("/uploads", express.static(uploadsPath));
+// Serve static files with explicit options
+app.use("/uploads", express.static(uploadsPath, {
+  etag: true,
+  lastModified: true,
+  maxAge: '1y'
+}));
+
+// Debug endpoint to test file access
+app.get("/uploads-test-file/:filename", (req, res) => {
+  const filename = req.params.filename;
+  const filepath = path.join(uploadsPath, filename);
+  if (fs.existsSync(filepath)) {
+    res.json({ 
+      exists: true, 
+      filepath,
+      size: fs.statSync(filepath).size 
+    });
+  } else {
+    res.status(404).json({ 
+      exists: false, 
+      filepath,
+      uploadsPath 
+    });
+  }
+});
 
 // API routes
 app.use("/api/auth", authRoutes);
@@ -102,6 +129,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/carbon", carbonRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/payment", paymentRoutes);
 
 const ensureAdminUser = async () => {
   const existing = await Admin.findOne({ username: ADMIN_USERNAME.toLowerCase() }).select("+password");
