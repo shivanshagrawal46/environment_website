@@ -1,15 +1,35 @@
 import express from "express";
-import Razorpay from "razorpay";
 import crypto from "crypto";
 
 const router = express.Router();
 
+// Lazy load Razorpay to prevent server crash if not installed
+let Razorpay = null;
+const loadRazorpay = async () => {
+  if (!Razorpay) {
+    try {
+      const razorpayModule = await import("razorpay");
+      Razorpay = razorpayModule.default;
+    } catch (err) {
+      console.error("Razorpay package not installed. Run: npm install razorpay");
+      return null;
+    }
+  }
+  return Razorpay;
+};
+
 // Initialize Razorpay instance
-const getRazorpayInstance = () => {
+const getRazorpayInstance = async () => {
   if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
     throw new Error("Razorpay credentials not configured");
   }
-  return new Razorpay({
+  
+  const RazorpayClass = await loadRazorpay();
+  if (!RazorpayClass) {
+    throw new Error("Razorpay package not installed");
+  }
+  
+  return new RazorpayClass({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
   });
@@ -30,7 +50,7 @@ router.post("/create-order", async (req, res) => {
       });
     }
 
-    const razorpay = getRazorpayInstance();
+    const razorpay = await getRazorpayInstance();
 
     // Create order options
     const options = {
