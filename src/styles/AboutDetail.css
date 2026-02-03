@@ -408,12 +408,19 @@
   padding: 120px 5%;
   background: linear-gradient(135deg, var(--accent-green), var(--accent-sage));
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cta-content {
   max-width: 800px;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cta-content h2 {
@@ -429,13 +436,17 @@
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.95);
   margin: 0 0 40px 0;
+  max-width: 600px;
+  text-align: center;
 }
 
 .cta-buttons {
   display: flex;
   gap: 20px;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .primary-btn,
